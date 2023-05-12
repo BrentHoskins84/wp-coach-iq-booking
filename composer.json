@@ -1,0 +1,16 @@
+{
+    "name": "brenthoskins/coachiq-booking",
+    "description": "Booking plugin for coachiq",
+    "autoload": {
+        "psr-4": {
+            "CoachiqBooking\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Brent Hoskins",
+            "email": "brenthoskins84@gmail.com"
+        }
+    ],
+    "require": {}
+}
