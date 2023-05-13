@@ -8,7 +8,7 @@ class Event_Table {
 
 	public const EVENT_TYPE = [
 		'1' => 'Class',
-		'2' => 'Appointment',
+		'2' => 'lesson',
 		'3' => 'Event',
 	];
 

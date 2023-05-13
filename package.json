@@ -1,0 +1,33 @@
+{
+  "name": "coachiq-booking",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "start": "wp-scripts start",
+    "test:e2e": "wp-scripts test-e2e",
+    "test:unit": "wp-scripts test-unit-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrentHoskins84/wp-coach-iq-booking.git"
+  },
+  "license": "GPL-3.0+",
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.7",
+    "@fullcalendar/daygrid": "^6.1.7",
+    "@fullcalendar/react": "^6.1.7",
+    "@wordpress/element": "^5.10.0",
+    "@wordpress/i18n": "^4.33.0",
+    "@wordpress/scripts": "^26.4.0"
+  }
+}

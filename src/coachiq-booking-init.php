@@ -2,8 +2,10 @@
 
 namespace CoachIQ;
 
+use CoachIQ\Admin\CoachIQ_Booking_Admin;
 use CoachIQ\CustomPostTypes\Instructors;
 use CoachIQ\Taxonomies\Skills_Tax;
+use Lessons_Setting_Page;
 
 /**
  * The core plugin class.
@@ -43,7 +45,6 @@ Class Init {
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
-	 * @since    1.0.0
 	 * @access   protected
 	 * @var      CoachIQ_Booking_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
@@ -103,12 +104,41 @@ Class Init {
 		require_once $this->plugin_path . 'src/database/database.php';
 
 		/*
+		 * Load the Admin class.
+		 */
+		require_once $this->plugin_path . 'src/admin/admin.php';
+
+		/*
+		 * Load the lessons setting page
+		 */
+		require_once $this->plugin_path . 'src/admin/lessons-setting-page.php';
+
+		/*
 		 * Initialize the loader.
 		 */
 		$this->loader = new CoachIQ_Booking_Loader();
+
+
 	}
 
 	private function define_admin_hooks() {
+		/*
+		 * Load the Events Table.
+		 */
+		$this->loader->add_filter( 'theme_page_templates', $this, 'coachiq_booking_add_template' );
+		$this->loader->add_filter( 'page_template', $this, 'coachiq_booking_redirect_page_template' );
+
+		/*
+		 * Load the Admin class.
+		 */
+		$plugin_admin = new CoachIQ_Booking_Admin( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		/*
+		 * Load the Lessons Setting Page.
+		 */
+		$lessons_setting_page = new Lessons_Setting_Page();
+		$this->loader->add_action( 'admin_menu', $lessons_setting_page, 'add_settings_page' );
 
 		/*
 		 * Load the Skills taxonomy.
@@ -121,6 +151,25 @@ Class Init {
 		 */
 		$instructors_cpt = new Instructors();
 		$this->loader->add_action( 'init', $instructors_cpt, 'instructor_cpt', 0 );
+	}
+
+	/**
+	 * Add page templates.
+	 *
+	 * @param array $templates  The list of page templates
+	 *
+	 * @return array  $templates  The modified list of page templates
+	 */
+	function coachiq_booking_add_template( array $templates ): array {
+		$templates[$this->plugin_path . 'src/templates/scheduler.php'] = __( 'Scheduler', 'coachiq_booking' );
+
+		return $templates;
+	}
+
+	function coachiq_booking_redirect_page_template ( $template ) {
+		if ('template-canvas.php' === basename ( $template ) )
+			$template = $this->plugin_path . 'src/templates/scheduler.php';
+		return $template;
 	}
 
 	/**
